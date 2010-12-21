@@ -76,7 +76,7 @@ bool service_info_parse(service_location_t *service, service_info_t *info)
 	bool success = true;
 	
 	p   = iniparser_getstring(service->config, "services:provides", MYSERVICES_DEFAULT_SERVICE);
-	ptr = (char *)p;
+	ptr = strdup(p);
 	pch = strtok(ptr, " ");
 
 	while (pch) {
@@ -95,6 +95,7 @@ bool service_info_parse(service_location_t *service, service_info_t *info)
 		service_info_add(info, pch, service_address);
 		pch = strtok(NULL, " ");
 	}
+	free(ptr);
 	
 	if (false == success) {
 		service_info_deinit(info);
